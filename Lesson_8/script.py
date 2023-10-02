@@ -63,17 +63,28 @@ def put_data():
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+    if number_file == 1:
+        file_name = 'data_first_variant.csv'
     else:
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
+        file_name = 'data_second_variant.csv'
+
+    print(f"Какую именно запись по счету Вы хотите изменить в файле {file_name}?")
+    number_journal = int(input('Введите номер записи: '))
+
+    with open(file_name, 'r') as file:
+        lines = file.readlines()
+
+    if 0 < number_journal <= len(lines):
+        print(f'Текущее значение записи {number_journal}: {lines[number_journal-1].strip()}')
+        new_value = input('Введите новое значение для записи: ')
+        lines[number_journal - 1] = f'{new_value}\n'
+
+        with open(file_name, 'w') as file:
+            file.writelines(lines)
+
+        print(f'Запись изменена: {new_value}')
+    else:
+        print('Некорректный номер записи.')
 
 
 def delete_data():
@@ -85,13 +96,23 @@ def delete_data():
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+    if number_file == 1:
+        file_name = 'data_first_variant.csv'
     else:
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        file_name = 'data_second_variant.csv'
+
+    print(f"Какую именно запись по счету Вы хотите удалить в файле {file_name}?")
+    number_journal = int(input('Введите номер записи: '))
+
+    with open(file_name, 'r') as file:
+        lines = file.readlines()
+
+    if 0 < number_journal <= len(lines):
+        deleted_line = lines.pop(number_journal - 1)
+
+        with open(file_name, 'w') as file:
+            file.writelines(lines)
+
+        print(f'Запись удалена: {deleted_line}')
+    else:
+        print('Некорректный номер записи.')
